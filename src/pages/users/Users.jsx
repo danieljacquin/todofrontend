@@ -34,13 +34,13 @@ const Users = () => {
       });
 
     const onSubmit = data => {
-        handleCreateUsuer(url, data);
+        handleCreateUsuer(data);
     };
 
     const onsubmitUpdate = data => {
         console.log(data);
         console.log(userid);
-        handleUpdateUsuer(url, data, userid);
+        handleUpdateUsuer(data, userid);
     };
 
 
@@ -66,23 +66,23 @@ const Users = () => {
         },400)
     }
 
-    const handleCreateUsuer = async(url, data) => {
+    const handleCreateUsuer = async(data) => {
         usersService.createUser(url, data).then((response) => {
 
             if(response){
+                usersService.getUsers(url).then((res) => {
+                    setUsers(res)
+                });
                 refSucessfull.current.classList.toggle('show__message-success');
                 setTimeout(()=>{
                     reset({name: '', lastName: '', email: '', password: ''});
                     refSucessfull.current.classList.toggle('show__message-success');
-                    usersService.getUsers(url).then((res) => {
-                        setUsers(res)
-                    });
                 },3000)
             }
         });
     }
 
-    const handleUpdateUsuer = async(url, data,  id) => {
+    const handleUpdateUsuer = async(data,  id) => {
         usersService.updateUser(url, data, id).then((response) => {
 
             if(response){
