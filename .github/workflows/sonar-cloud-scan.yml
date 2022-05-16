@@ -33,7 +33,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
-    if: github.event_name == 'push
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
       run:  npm run build
 
   deploy:
-    if: github.event_name == 'push
+    if: github.event_name == 'push'
     needs: [build]
     runs-on: ubuntu-latest
     steps:
