@@ -2,7 +2,6 @@
   "name": "todofrontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/build",
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.8.8",
