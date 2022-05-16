@@ -1,6 +1,6 @@
 # video from midudev's youtube channel
   # https://www.youtube.com/watch?v=sIhm4YOMK6Q&list=WL&index=122&t=6181s
-  # Github action  sonarcloud we used to do our workflowss
+  # Github action  sonarcloud we used to do our workflow
   # https://github.com/marketplace/actions/sonarcloud-scan
 
 name: CI/CD
