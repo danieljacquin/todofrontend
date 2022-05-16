@@ -1,6 +1,6 @@
 # video from midudev's youtube channel
   # https://www.youtube.com/watch?v=sIhm4YOMK6Q&list=WL&index=122&t=6181s
-  # Github action  sonarcloud we used to do our workflow
+  # Github action  sonarcloud we used to do our workflows
   # https://github.com/marketplace/actions/sonarcloud-scan
 
 name: CI/CD
@@ -33,7 +33,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
-    if: github.event_name == 'push
+    if: github.ref_name == 'develop' ||  github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -48,15 +48,15 @@ jobs:
       run:  npm run build
 
   deploy:
-    if: github.event_name == 'push
+    if: github.ref_name == 'develop' ||  github.ref_name == 'main'
     needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v20 
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
 
+  
