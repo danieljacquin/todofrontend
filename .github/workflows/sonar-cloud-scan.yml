@@ -56,8 +56,9 @@ jobs:
       - uses: nwtgck/actions-netlify@v1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          publish-dir: './build'
+        env:
           netlify-auth-token: ${{ secrets.NETLIFY_TOKEN }}
           netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-          publish-dir: './build'
 
   
