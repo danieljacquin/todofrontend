@@ -21,7 +21,7 @@ class UsersService {
 
     async updateUser(url, user, id) {
         try {
-            const response = await axios.put(`${url}/users/${id}`, user);
+            const response = await axios.put(`${url}users/${id}`, user);
             return response.data;
         } catch (error) {
             return error;
@@ -30,7 +30,7 @@ class UsersService {
 
     async deleteUser(url, id) {
         try {
-            const response = await axios.delete(`${url}/users/${id}`);
+            const response = await axios.delete(`${url}users/${id}`);
             return response.data;
         } catch (error) {
             return error;
