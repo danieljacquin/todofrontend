@@ -27,7 +27,7 @@ jobs:
       with: 
         args: >
           -Dsonar.organization=danieljacquin
-          -Dsonar.projectKey=danieljacquin_todo
+          -Dsonar.projectKey=danieljacquin_todofrontend
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
