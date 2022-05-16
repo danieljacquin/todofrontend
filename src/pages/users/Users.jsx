@@ -67,10 +67,9 @@ const Users = () => {
     }
 
     const handleCreateUsuer = async(url, data) => {
-        usersService.createUser(url, data).then((data) => {
-            console.log(data)
+        usersService.createUser(url, data).then((response) => {
 
-            if(data){
+            if(response){
                 refSucessfull.current.classList.toggle('show__message-success');
                 setTimeout(()=>{
                     reset({name: '', lastName: '', email: '', password: ''});
@@ -84,10 +83,9 @@ const Users = () => {
     }
 
     const handleUpdateUsuer = async(url, data,  id) => {
-        usersService.updateUser(url, data, id).then((data) => {
-            console.log(data)
+        usersService.updateUser(url, data, id).then((response) => {
 
-            if(data){
+            if(response){
                 usersService.getUsers(url).then((res) => {
                     setUsers(res)
                 });
