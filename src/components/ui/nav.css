@@ -1,0 +1,35 @@
+
+.header{
+    width: 100%;
+}
+
+.header__nav{
+    width: inherit;
+    height: 60px;
+    padding: 0 40px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px 1px #ccc;
+    box-sizing: border-box;
+}
+
+.header__log{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__link{
+    text-decoration: none;
+    color: black;
+}
+
+.header__list{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
