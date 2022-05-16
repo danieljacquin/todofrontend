@@ -33,7 +33,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
-    if: github.ref_name == 'develop' ||  github.ref_name == 'main'
+    if: github.event_name == 'push
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
       run:  npm run build
 
   deploy:
-    if: github.event.pull_request.base.ref == 'develop'
+    if: github.event_name == 'push
     needs: [build]
     runs-on: ubuntu-latest
     steps:
@@ -58,5 +58,5 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} 
-          working-directory: ./
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+
