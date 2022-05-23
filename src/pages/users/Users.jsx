@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import usersService from '../../services/users.service';
 import './users.css';
 import { FaTrashAlt } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { AuthContext } from '../../contexts/auth/AuthContext';
 
     const url = process.env.REACT_APP_BACKEND_URL;
 const Users = () => {
@@ -14,7 +15,10 @@ const Users = () => {
     const [users, setUsers] = useState([]);
     const [createorupdate, setCreateorupdate] = useState('create');
     const [userid, setUserId] = useState(0);
-    
+
+    const { user } = useContext(AuthContext);
+    const token = user.token
+
     const refFormContainer = useRef();
     const refFormRegister = useRef();
     const refSucessfull = useRef();
@@ -38,14 +42,12 @@ const Users = () => {
     };
 
     const onsubmitUpdate = data => {
-        console.log(data);
-        console.log(userid);
         handleUpdateUsuer(data, userid);
     };
 
 
     useEffect(() => {
-        usersService.getUsers(url).then((res) => {
+        usersService.getUsers(url, token).then((res) => {
             setUsers(res)
         });
     },[])
@@ -67,10 +69,10 @@ const Users = () => {
     }
 
     const handleCreateUsuer = async(data) => {
-        usersService.createUser(url, data).then((response) => {
+        usersService.createUser(url, data, token).then((response) => {
 
             if(response){
-                usersService.getUsers(url).then((res) => {
+                usersService.getUsers(url, token).then((res) => {
                     setUsers(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -83,10 +85,11 @@ const Users = () => {
     }
 
     const handleUpdateUsuer = async(data,  id) => {
-        usersService.updateUser(url, data, id).then((response) => {
+        console.log(token);
+        usersService.updateUser(url, data, id, token).then((response) => {
 
             if(response){
-                usersService.getUsers(url).then((res) => {
+                usersService.getUsers(url, token).then((res) => {
                     setUsers(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -110,11 +113,10 @@ const Users = () => {
     const deleteUser = async(id) => {
         console.log(id)
 
-        const deleted = await usersService.deleteUser(url, id);
-        console.log(deleted);
+        const deleted = await usersService.deleteUser(url, id, token);
 
         if(deleted){
-            usersService.getUsers(url).then((res) => {
+            usersService.getUsers(url, token).then((res) => {
                 setUsers(res)
             });
         }

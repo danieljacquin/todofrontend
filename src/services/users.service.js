@@ -1,36 +1,49 @@
 import axios from 'axios';
 class UsersService {
 
-    async getUsers(url){
+    async getUsers(url, token){
         try {
-           const response = await axios.get(`${url}users/all`);
+           const response = await axios.get(`${url}users/all`,
+            {headers: {
+                 'Authorization': 'Bearer ' + token
+            }}
+           );
             return response.data;
         } catch (error) {
             return error;
         }
     }
 
-    async createUser(url, user) {
+    async createUser(url, user, token) {
         try {
-            const response = await axios.post(`${url}users/create`, user);
+            const response = await axios.post(`${url}users/create`, user,
+            {headers: {
+                 'Authorization': 'Bearer ' + token
+            }} );
             return response.data;
         } catch (error) {
             return error;
         }
     }
 
-    async updateUser(url, user, id) {
+    async updateUser(url, user, id, token) {
         try {
-            const response = await axios.put(`${url}users/${id}`, user);
+            const response = await axios.put(`${url}users/${id}`, user,
+            {headers: {
+                 'Authorization': 'Bearer ' + token
+            }});
             return response.data;
         } catch (error) {
             return error;
         }
     }
 
-    async deleteUser(url, id) {
+    async deleteUser(url, id, token) {
         try {
-            const response = await axios.delete(`${url}users/${id}`);
+            const response = await axios.delete(`${url}users/${id}`,
+            {headers: {
+                 'Authorization': 'Bearer ' + token
+            }});
             return response.data;
         } catch (error) {
             return error;

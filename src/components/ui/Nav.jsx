@@ -1,8 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './nav.css';
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth/AuthContext';
 
 const Nav = () => {
+
+    const navigate = useNavigate();
+
+    const { user, dispatch } = useContext(AuthContext)
+    const {name}= user;
+
+    const handleLogout = () => {
+        dispatch({
+            type: 'logout'
+        });
+
+        navigate('/login');
+    }
+
+
+
+
+
     return (
         <header className="header">
            <nav className='header__nav'>
@@ -15,7 +35,10 @@ const Nav = () => {
                     <li className="header__list-item"><Link className="header__link" to="/workspaces">Workspaces</Link></li> 
                     <li className="header__list-item"><Link className="header__link" to="/todoCategories">TodoCategories</Link></li> 
                     <li className="header__list-item"><Link className="header__link" to="/tasks">Tasks</Link></li> 
-                    <li className="header__list-item"><RiLogoutCircleRLine/></li>
+                    <li className="header__list-item">
+                        <span className="user__name">daniel</span>
+                        <span className="header__logout" onClick={handleLogout}><RiLogoutCircleRLine/></span>
+                    </li>
                 </ul>
            </nav>
         </header>
