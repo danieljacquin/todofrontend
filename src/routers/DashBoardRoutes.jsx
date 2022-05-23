@@ -1,4 +1,4 @@
-import {  Route, Routes, Navigate } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 import Nav from '../components/ui/Nav';
 import Users from '../pages/users/Users';
 import Roles from '../pages/roles/Roles';
