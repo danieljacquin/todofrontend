@@ -43,7 +43,7 @@ const Categories = () => {
         categoriesService.getCategories(url, token).then((res) => {
             setCategories(res)
         });
-    },[])
+    },[token])
 
     const handleShowModal = () => {
         refFormContainer.current.classList.toggle('show_modal__container');

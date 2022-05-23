@@ -36,7 +36,7 @@ const Nav = () => {
                     <li className="header__list-item"><Link className="header__link" to="/todoCategories">TodoCategories</Link></li> 
                     <li className="header__list-item"><Link className="header__link" to="/tasks">Tasks</Link></li> 
                     <li className="header__list-item">
-                        <span className="user__name">daniel</span>
+                        <span className="user__name">{name}</span>
                         <span className="header__logout" onClick={handleLogout}><RiLogoutCircleRLine/></span>
                     </li>
                 </ul>

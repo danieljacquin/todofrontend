@@ -45,7 +45,7 @@ const Roles = () => {
         rolesService.getRoles(url, token).then((res) => {
             setRoles(res)
         });
-    },[])
+    },[token])
 
 
     const handleShowModal = () => {
