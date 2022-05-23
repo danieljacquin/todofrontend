@@ -21,7 +21,7 @@ const Login = () => {
         password: yup.string().required()
     })
 
-    const { register, handleSubmit, reset,   formState: { errors } } = useForm({
+    const { register, handleSubmit,  formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
 

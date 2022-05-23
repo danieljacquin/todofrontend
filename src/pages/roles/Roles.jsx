@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import rolesService from '../../services/roles.service';
 import './roles.css';
 import { FaTrashAlt } from "react-icons/fa";
@@ -8,8 +8,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { AuthContext } from '../../contexts/auth/AuthContext';
 const url = process.env.REACT_APP_BACKEND_URL;
 const Roles = () => {
+
     const [roles, setRoles] = useState([]);
     const [createorupdate, setCreateorupdate] = useState('create');
     const [roleid, setRoleId] = useState(0);
@@ -17,6 +19,9 @@ const Roles = () => {
     const refFormContainer = useRef();
     const refFormRegister = useRef();
     const refSucessfull = useRef();
+
+    const { user } = useContext(AuthContext);
+    const token = user.token
 
     const schema = yup.object({
         name: yup.string().required(),        
@@ -37,7 +42,7 @@ const Roles = () => {
 
 
     useEffect(() => {
-        rolesService.getRoles(url).then((res) => {
+        rolesService.getRoles(url, token).then((res) => {
             setRoles(res)
         });
     },[])
@@ -60,10 +65,10 @@ const Roles = () => {
     }
 
     const handleCreateRole = async(data) => {
-        rolesService.createRole(url, data).then((response) => {
+        rolesService.createRole(url, data, token).then((response) => {
 
             if(response){
-                rolesService.getRoles(url).then((res) => {
+                rolesService.getRoles(url,token).then((res) => {
                     setRoles(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -76,10 +81,10 @@ const Roles = () => {
     }
 
     const handleUpdateRole = async(data,  id) => {
-        rolesService.updateRole(url, data, id).then((response) => {
+        rolesService.updateRole(url, data, id, token).then((response) => {
 
             if(response){
-                rolesService.getRoles(url).then((res) => {
+                rolesService.getRoles(url, token).then((res) => {
                     setRoles(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -98,11 +103,11 @@ const Roles = () => {
      }
  
      const deleteRole = async(id) => {
-         const deleted = await rolesService.deleteRole(url, id);
+         const deleted = await rolesService.deleteRole(url, id, token);
          console.log(deleted);
  
          if(deleted){
-             rolesService.getRoles(url).then((res) => {
+             rolesService.getRoles(url, token).then((res) => {
                  setRoles(res)
              });
          }

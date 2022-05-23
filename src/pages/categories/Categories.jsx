@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import categoriesService from '../../services/categories.service';
 import './categories.css';
 import { FaTrashAlt } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { AuthContext } from '../../contexts/auth/AuthContext';
 
 const url = process.env.REACT_APP_BACKEND_URL;
 const Categories = () => {
@@ -14,6 +15,9 @@ const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [createorupdate, setCreateorupdate] = useState('create');
     const [categoryid, setCategoryId] = useState(0);
+
+    const { user } = useContext(AuthContext);
+    const token = user.token
     
     const refFormContainer = useRef();
     const refFormRegister = useRef();
@@ -36,7 +40,7 @@ const Categories = () => {
     };
 
     useEffect(() => {
-        categoriesService.getCategories(url).then((res) => {
+        categoriesService.getCategories(url, token).then((res) => {
             setCategories(res)
         });
     },[])
@@ -58,9 +62,9 @@ const Categories = () => {
     }
 
     const handleCreateCategory = async(data) => {
-        categoriesService.createCategory(url, data).then((response) => {
+        categoriesService.createCategory(url, data, token).then((response) => {
             if(response){
-                categoriesService.getCategories(url).then((res) => {
+                categoriesService.getCategories(url, token).then((res) => {
                     setCategories(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -73,9 +77,9 @@ const Categories = () => {
     }
 
     const handleUpdateCategory = async(data,  id) => {
-        categoriesService.updateCategory(url, data, id).then((response) => {
+        categoriesService.updateCategory(url, data, id, token).then((response) => {
             if(response){
-                categoriesService.getCategories(url).then((res) => {
+                categoriesService.getCategories(url, token).then((res) => {
                     setCategories(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
@@ -94,10 +98,10 @@ const Categories = () => {
     }
  
      const deleteCategory = async(id) => {
-         const deleted = await categoriesService.deleteCategory(url, id);
+         const deleted = await categoriesService.deleteCategory(url, id, token);
          console.log(deleted);
          if(deleted){
-             categoriesService.getCategories(url).then((res) => {
+             categoriesService.getCategories(url, token).then((res) => {
                  setCategories(res)
              });
          }
