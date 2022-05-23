@@ -50,7 +50,7 @@ const Users = () => {
         usersService.getUsers(url, token).then((res) => {
             setUsers(res)
         });
-    },[])
+    },[token])
 
     const handleShowModal = () => {
         refFormContainer.current.classList.toggle('show_modal__container');
