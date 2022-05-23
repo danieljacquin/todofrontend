@@ -33,3 +33,12 @@
     width: 60%;
 }
 
+.user__name{
+    margin-right: 10px;
+}
+
+.header__logout{
+    
+    align-items: center;
+}
+
