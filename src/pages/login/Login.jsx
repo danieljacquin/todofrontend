@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth/AuthContext';
 import './login.css';
@@ -7,11 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import authService from '../../services/auth.service';
 import jwt_decode from "jwt-decode";
+import Register from '../register/Register';
 
 const url = process.env.REACT_APP_BACKEND_URL;
 const Login = () => {
 
-    const {dispatch} = useContext(AuthContext);
+    const { dispatch } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const refSucessfull = useRef();
@@ -21,32 +22,32 @@ const Login = () => {
         password: yup.string().required()
     })
 
-    const { register, handleSubmit,  formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
-      });
+    });
 
-      const onSubmit = async(data) => {
-        
-       const response = await authService.login(url, data)
-       if(!response.data){
+    const onSubmit = async (data) => {
+
+        const response = await authService.login(url, data)
+        if (!response.data) {
             refSucessfull.current.classList.toggle('show__message-login');
-            setTimeout(()=>{
+            setTimeout(() => {
                 refSucessfull.current.classList.toggle('show__message-login');
-            },3000)
-           
-       }else{
+            }, 3000)
+
+        } else {
             const token = response.data.access_token;
             let decoded = jwt_decode(token);
-            handleLogin(token,decoded)
-       }
-       
+            handleLogin(token, decoded)
+        }
+
     };
 
-    const handleLogin = (token,decoded) => {
+    const handleLogin = (token, decoded) => {
 
         dispatch({
             type: 'login',
-            payload:{
+            payload: {
                 token,
                 ...decoded
             }
@@ -54,23 +55,28 @@ const Login = () => {
         navigate('/');
     }
 
+   
+
 
     return (
         <>
-            <div className="login">
+            <div className="login" >
                 <div className="login-triangle"></div>
 
                 <h2 className="login-header">Log in</h2>
-
-                <form className="login-container" onSubmit={handleSubmit( onSubmit)}>
-                    <p><input type="text" placeholder="Email" {...register("email")}/></p>
-                    <p className='message_error'>{errors.email?.message}</p>
-                    <p><input type="password" placeholder="Password" {...register("password")}/></p>
-                    <p className='message_error'>{errors.password?.message}</p>
-                    <button className="bton-form bton--save" type='submit'>Log in</button>
-                    <p className='message__login' ref={refSucessfull} >User or password invalid</p>
+                <form className="login-container" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="inputs">
+                        <input type="text" placeholder="Email" {...register("email")} />
+                        <p className='message_error'>{errors.email?.message}</p>
+                        <input type="password" placeholder="Password" {...register("password")} />
+                        <p className='message_error'>{errors.password?.message}</p>
+                        <button className="bton-form bton--save" type='submit'>Log in</button>
+                        <p className='register__login'>Register  ?</p>
+                        <p className='message__login' ref={refSucessfull} >User or password invalid</p>
+                    </div>
                 </form>
             </div>
+            <Register />
         </>
     )
 }
