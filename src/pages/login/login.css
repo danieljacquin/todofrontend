@@ -115,3 +115,23 @@
 .show__message-login{
   display: block;
 }
+
+.register__login{
+  cursor: pointer;
+}
+
+.inputs{
+  padding: 5px;
+}
+.inputs input{
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 5px;
+  outline: none;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+

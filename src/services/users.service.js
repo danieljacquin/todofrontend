@@ -26,6 +26,15 @@ class UsersService {
         }
     }
 
+    async createUserWitoutToken(url, user) {
+        try {
+            const response = await axios.post(`${url}users/create`,user);
+            return response.data;
+        } catch (error) {
+            return error;
+        }
+    }
+
     async updateUser(url, user, id, token) {
         try {
             const response = await axios.put(`${url}users/${id}`, user,

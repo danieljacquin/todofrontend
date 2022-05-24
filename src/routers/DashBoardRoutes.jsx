@@ -7,6 +7,7 @@ import Categories from '../pages/categories/Categories';
 import TodoCategories from '../pages/todo-categories/TodoCategories';
 import Workspaces from '../pages/workspaces/Workspaces';
 import Tasks from '../pages/tasks/Tasks';
+import Register from '../pages/register/Register';
 
 const DashBoardRoutes = () => {
 
