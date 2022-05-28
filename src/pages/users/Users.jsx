@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import usersService from '../../services/users.service';
-import './users.css';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
