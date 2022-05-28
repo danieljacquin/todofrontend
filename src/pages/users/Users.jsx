@@ -1,26 +1,22 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import usersService from '../../services/users.service';
-import './users.css';
-import { FaTrashAlt } from "react-icons/fa";
-import { MdOutlineModeEditOutline } from "react-icons/md";
-import { AiOutlinePlus } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { AuthContext } from '../../contexts/auth/AuthContext';
+import { Table, Button, Modal } from 'react-bootstrap';
 
-    const url = process.env.REACT_APP_BACKEND_URL;
+const url = process.env.REACT_APP_BACKEND_URL;
 const Users = () => {
-   
+
     const [users, setUsers] = useState([]);
     const [createorupdate, setCreateorupdate] = useState('create');
     const [userid, setUserId] = useState(0);
+    const [show, setShow] = useState(false);
 
     const { user } = useContext(AuthContext);
     const token = user.token
 
-    const refFormContainer = useRef();
-    const refFormRegister = useRef();
     const refSucessfull = useRef();
 
 
@@ -33,9 +29,9 @@ const Users = () => {
 
 
 
-    const { register, handleSubmit, reset, setValue,  formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
-      });
+    });
 
     const onSubmit = data => {
         handleCreateUsuer(data);
@@ -50,154 +46,149 @@ const Users = () => {
         usersService.getUsers(url, token).then((res) => {
             setUsers(res)
         });
-    },[token])
+    }, [token])
 
-    const handleShowModal = () => {
-        refFormContainer.current.classList.toggle('show_modal__container');
-        refFormRegister.current.classList.toggle('show__modal');
+    const handleClose = () => {
+
+        setShow(false);
+        reset({ name: '', lastName: '', email: '', password: '' });
+        setCreateorupdate('create');
     }
+    const handleShow = () => setShow(true);
 
-    const handleRemoveModal = (e) => {
-        e.preventDefault();
-        
-        refFormRegister.current.classList.toggle('show__modal');
-        setTimeout(()=>{
-            reset({name: '', lastName: '', email: '', password: ''});
-            refFormContainer.current.classList.toggle('show_modal__container');
-            setCreateorupdate('create')
-        },400)
-    }
-
-    const handleCreateUsuer = async(data) => {
+    const handleCreateUsuer = async (data) => {
         usersService.createUser(url, data, token).then((response) => {
 
-            if(response){
+            if (response) {
                 usersService.getUsers(url, token).then((res) => {
                     setUsers(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
-                setTimeout(()=>{
-                    reset({name: '', lastName: '', email: '', password: ''});
+                setTimeout(() => {
+                    reset({ name: '', lastName: '', email: '', password: '' });
                     refSucessfull.current.classList.toggle('show__message-success');
-                },3000)
+                }, 3000)
             }
         });
     }
 
-    const handleUpdateUsuer = async(data,  id) => {
+    const handleUpdateUsuer = async (data, id) => {
         console.log(token);
         usersService.updateUser(url, data, id, token).then((response) => {
 
-            if(response){
+            if (response) {
                 usersService.getUsers(url, token).then((res) => {
                     setUsers(res)
                 });
                 refSucessfull.current.classList.toggle('show__message-success');
-                setTimeout(()=>{
+                setTimeout(() => {
                     refSucessfull.current.classList.toggle('show__message-success');
-                },3000)
+                }, 3000)
             }
         });
     }
 
     const setFormInf = (user) => {
-       setUserId(user.id)
+        setUserId(user.id)
         setCreateorupdate('update')
         setValue('name', user.name)
         setValue('lastName', user.lastName)
         setValue('email', user.email)
         setValue('password', user.password)
-        handleShowModal();
+        handleShow();
     }
 
-    const deleteUser = async(id) => {
-        console.log(id)
+    const deleteUser = async (id) => {
 
         const deleted = await usersService.deleteUser(url, id, token);
 
-        if(deleted){
+        if (deleted) {
             usersService.getUsers(url, token).then((res) => {
                 setUsers(res)
             });
         }
     }
-        
 
-        
+
+
 
 
     return (
 
-        <div className='user'>
-            <span className="plus" onClick={handleShowModal} ><AiOutlinePlus /></span>
-            <div className="table">
-                <table className="table__data">
-                    <thead className="table__header">
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>LASTNAME</th>
-                            <th>EMAIL</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody className="table__body">
-                        {
-                            users.map((user) => {
-                                return (
-                                    <tr key={user.id}>
-                                        <td>{user.id}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.lastName}</td>
-                                        <td>{user.email}</td>
-                                        <td>
-                                            <button className="btn btn--edit" onClick={() => setFormInf(user)}><i><MdOutlineModeEditOutline /></i></button>
-                                            <button className="btn btn--delete" onClick={() => deleteUser(user.id)}><i><FaTrashAlt /></i></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
+        <>
+            <div className="d-flex justify-content-end mt-4">
+                <Button variant="secondary" onClick={handleShow}>CREATE</Button>
             </div>
+            <Table striped="columns" hover size="md">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>LASTNAME</th>
+                        <th>EMAIL</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        users.map((user) => {
+                            return (
+                                <tr key={user.id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.lastName}</td>
+                                    <td>{user.email}</td>
+                                    <td>
+                                        <button className="btn btn-primary" onClick={() => setFormInf(user)} >UPDATE</button>
+                                        <button className="btn btn-danger" onClick={() => deleteUser(user.id)} >DELETE</button>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </Table>
+            <Modal show={show} onHide={handleClose} centered backdrop="static">
+                <Modal.Header closeButton>
+                    {
+                        createorupdate === 'create'
+                            ?
+                            <Modal.Title>Register User</Modal.Title>
 
-            <div className="form__container" ref={refFormContainer}>
-                <form className="user__register" ref={refFormRegister} onSubmit={handleSubmit( createorupdate === 'create' ? onSubmit :  onsubmitUpdate )}>
-                    <div className="title">
-                        {
-                            createorupdate === 'create' 
-                                ?
-                                    <h1>Register User</h1>
-                                :  
-                                <h1> Update  User</h1>  
-                        }
-                        
-                    </div>
-                    <div className='inputs'>
-                        <input type="text"  placeholder="Name" {...register("name")}></input>
+                            :
+                            <Modal.Title>Update User</Modal.Title>
+
+                    }
+                </Modal.Header>
+                <form className="p-3" onSubmit={handleSubmit(createorupdate === 'create' ? onSubmit : onsubmitUpdate)}>
+                    <div className="mb-3">
+                        <input type="text" className="form-control"  placeholder="Name" {...register("name")}/>
                         <p className='message_error'>{errors.name?.message}</p>
-                        <input type="text" placeholder="LastName" {...register("lastName")}></input>
+                    </div>
+                    <div className="mb-3">
+                        <input type="text" className="form-control"  placeholder="LastName" {...register("lastName")}/>
                         <p className='message_error'>{errors.lastName?.message}</p>
-                        <input type="text" placeholder="Email" {...register("email")}></input>
+                    </div>
+                    <div className="mb-3">
+                        <input type="text" className="form-control"  placeholder="Email" {...register("email")}/>
                         <p className='message_error'>{errors.email?.message}</p>
-                        <input type="password" placeholder="Password" {...register("password")}></input>
+                    </div>
+                    <div className="mb-3">
+                        <input type="password" className="form-control"  placeholder="Password" {...register("password")}/>
                         <p className='message_error'>{errors.password?.message}</p>
                     </div>
-                    <div className="wrap-btn__save">
-                        {
-                            createorupdate === 'create' 
-                                ?
-                                <button className="btn-form btn--save" type='submit'>Save</button>
-                                :  
-                                <button className="btn-form btn--save" type='submit'>Update</button>
-                        }
-                        <button className="btn-form btn--cancel"  onClick={handleRemoveModal}>Close</button>
-                    </div>
+                    {
+                        createorupdate === 'create'
+                            ?
+                            <button type='submit' className="btn btn-primary" >Save</button>
+                            :
+                            <button type='submit' className="btn btn-primary" >Update</button>
+                    }
+                    <button type='botton' className="btn btn-danger" onClick={handleClose}>Close</button>
                     <p className='message__success' ref={refSucessfull} >¡successful Action!</p>
                 </form>
-            </div>
-        </div>
+            </Modal>
+        </>
     )
 }
 
