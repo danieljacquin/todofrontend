@@ -8,6 +8,7 @@ import * as yup from "yup";
 import authService from '../../services/auth.service';
 import jwt_decode from "jwt-decode";
 import Register from '../register/Register';
+import image1 from '../../assets/img/image1.jpg';
 
 const url = process.env.REACT_APP_BACKEND_URL;
 const Login = () => {
@@ -16,6 +17,8 @@ const Login = () => {
 
     const navigate = useNavigate();
     const refSucessfull = useRef();
+    const loginView = useRef();
+    const registerView = useRef();
 
     const schema = yup.object({
         email: yup.string().required().email(),
@@ -30,6 +33,7 @@ const Login = () => {
 
         const response = await authService.login(url, data)
         if (!response.data) {
+            console.log("entro aqui")
             refSucessfull.current.classList.toggle('show__message-login');
             setTimeout(() => {
                 refSucessfull.current.classList.toggle('show__message-login');
@@ -55,28 +59,49 @@ const Login = () => {
         navigate('/');
     }
 
-   
+    const showAndHide = () => {
+        loginView.current.classList.toggle('hide__login');
+        registerView.current.classList.toggle('show_register');
+    }
+
 
 
     return (
         <>
-            <div className="login" >
-                <div className="login-triangle"></div>
+            <div className="container" ref={loginView}>
+                <div className="row">
+                    <div className="col-md-6 offset-md-3">
+                        <div className="card my-5">
 
-                <h2 className="login-header">Log in</h2>
-                <form className="login-container" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="inputs">
-                        <input type="text" placeholder="Email" {...register("email")} />
-                        <p className='message_error'>{errors.email?.message}</p>
-                        <input type="password" placeholder="Password" {...register("password")} />
-                        <p className='message_error'>{errors.password?.message}</p>
-                        <button className="bton-form bton--save" type='submit'>Log in</button>
-                        <p className='register__login'>Register  ?</p>
-                        <p className='message__login' ref={refSucessfull} >User or password invalid</p>
+                            <form className="card-body cardbody-color p-lg-5" onSubmit={handleSubmit(onSubmit)}>
+
+                                <div className="text-center">
+                                    <img src={image1} className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                                        width="200px" alt="profile"></img>
+                                </div>
+
+                                <div className="mb-3">
+                                    <input type="text" className="form-control" id="Username" aria-describedby="emailHelp"
+                                        placeholder="Email" {...register("email")} />
+                                    <p className='message_error'>{errors.email?.message}</p>
+                                </div>
+                                <div className="mb-3">
+                                    <input type="Password" className="form-control" id="password" placeholder="password"  {...register("password")} />
+                                    <p className='message_error'>{errors.password?.message}</p>
+                                </div>
+                                <div className="text-center"><button type="submit" className="btn btn-primary px-5 mb-3 w-100">Login</button></div>
+                                <p className='message-login' ref={refSucessfull} >Email or Password are invalid</p>
+                                <div id="emailHelp" className="form-text text-center mb-5 text-dark register" onClick={showAndHide}>Not
+                                    Registered?  Create an
+                                    Account
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
-                </form>
+                </div>
             </div>
-            <Register />
+            <Register showAndHide={showAndHide} registerView={registerView}/>
         </>
     )
 }

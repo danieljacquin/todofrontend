@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes,Navigate } from 'react-router-dom';
 import Menu from '../components/ui/Menu';
 import Users from '../pages/users/Users';
 import Roles from '../pages/roles/Roles';
@@ -23,6 +23,10 @@ const DashBoardRoutes = () => {
                     <Route path="/todoCategories" element={<TodoCategories />}></Route>
                     <Route path="/workspaces" element={<Workspaces />}></Route>
                     <Route path="/tasks" element={<Tasks />}></Route>
+                    <Route
+                        path="*"
+                        element={<Navigate to="/users" replace />}
+                    />
                 </Routes>
             </Container>
         </>
