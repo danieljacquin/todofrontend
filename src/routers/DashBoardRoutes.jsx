@@ -23,10 +23,10 @@ const DashBoardRoutes = () => {
                     <Route path="/todoCategories" element={<TodoCategories />}></Route>
                     <Route path="/workspaces" element={<Workspaces />}></Route>
                     <Route path="/tasks" element={<Tasks />}></Route>
-                    <Route
+                    {/* <Route
                         path="*"
                         element={<Navigate to="/users" replace />}
-                    />
+                    /> */}
                 </Routes>
             </Container>
         </>
