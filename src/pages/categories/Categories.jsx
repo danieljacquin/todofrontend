@@ -32,11 +32,11 @@ const Categories = () => {
     });
 
     const onSubmit = data => {
-        handleCreateCategory(data); // ojo cambio de nombre del funcion
+        handleCreateCategory(data); 
     };
 
     const onsubmitUpdate = data => {
-        handleUpdateCategory(data, categoryid); // aca tambien
+        handleUpdateCategory(data, categoryid); 
     };
 
     useEffect(() => {
