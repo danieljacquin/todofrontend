@@ -104,7 +104,7 @@ const Roles = () => {
             <div className="d-flex justify-content-end mt-4">
                 <Button variant="secondary" onClick={handleShow}>CREATE</Button>
             </div>
-            <Table striped="columns" hover size="md">
+            <Table striped="columns" hover size="sm">
                 <thead>
                     <tr>
                         <th>ID</th>
