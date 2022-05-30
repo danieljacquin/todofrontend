@@ -1,16 +1,3 @@
-.message_error {
-    color: #bf1650;
-    margin: 0;
-}
-
-.message__success{
-    margin-top: 16px;
-    padding: 5px;
-    text-align: center;
-    background-color: rgb(231, 227, 235);
-    display: none;
-}
-
-.show__message-success{
-    display: block;
+.separeted{
+    margin-right: 5px;
 }

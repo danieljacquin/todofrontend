@@ -170,7 +170,7 @@ const UserRoles = () => {
                                 <td>{ur.rolName}</td>
                                 <td>{ur.userName}</td>
                                 <td>
-                                    <button className="btn btn-primary" onClick={() => setFormInf(ur)}>UPDATE</button>
+                                    <button className="btn btn-primary separeted" onClick={() => setFormInf(ur)}>UPDATE</button>
                                     <button className="btn btn-danger" onClick={() => deleteUserRoles(ur.id)}>DELETE</button>
                                 </td>
                             </tr>)
