@@ -157,7 +157,7 @@ const Workspaces = () => {
                                 <td>{ws.desc}</td>
                                 <td>{ws.userName}</td>
                                 <td>
-                                    <button className="btn btn-primary" onClick={() => setFormInf(ws)}>UPDATE</button>
+                                    <button className="btn btn-primary separeted" onClick={() => setFormInf(ws)}>UPDATE</button>
                                     <button className="btn btn-danger" onClick={() => deleteWorkspaces(ws.id)}>DELETE</button>
                                 </td>
                             </tr>)

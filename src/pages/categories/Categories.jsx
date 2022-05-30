@@ -120,7 +120,7 @@ const Categories = () => {
                                     <td>{category.id}</td>
                                     <td>{category.name}</td>
                                     <td>
-                                        <button className="btn btn-primary" onClick={() => setFormInf(category)} >UPDATE</button>
+                                        <button className="btn btn-primary separeted" onClick={() => setFormInf(category)} >UPDATE</button>
                                         <button className="btn btn-danger" onClick={() => deleteCategory(category.id)} >DELETE</button>
                                     </td>
                                 </tr>
