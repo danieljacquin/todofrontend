@@ -180,9 +180,9 @@ const Users = () => {
                     {
                         createorupdate === 'create'
                             ?
-                            <button type='submit' className="btn btn-primary" >Save</button>
+                            <button type='submit' className="btn btn-primary separeted" >Save</button>
                             :
-                            <button type='submit' className="btn btn-primary" >Update</button>
+                            <button type='submit' className="btn btn-primary separeted" >Update</button>
                     }
                     <button type='botton' className="btn btn-danger" onClick={handleClose}>Close</button>
                     <p className='message__success' ref={refSucessfull} >¡successful Action!</p>
