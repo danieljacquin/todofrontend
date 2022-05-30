@@ -139,7 +139,7 @@ const Users = () => {
                                     <td>{user.lastName}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <button className="btn btn-primary" onClick={() => setFormInf(user)} >UPDATE</button>
+                                        <button className="btn btn-primary separeted" onClick={() => setFormInf(user)} >UPDATE</button>
                                         <button className="btn btn-danger" onClick={() => deleteUser(user.id)} >DELETE</button>
                                     </td>
                                 </tr>

@@ -162,7 +162,7 @@ const TodoCategories = () => {
                                 <td>{tc.workspaceName}</td>
                                 <td>{tc.categoryName}</td>
                                 <td>
-                                    <button className="btn btn-primary" onClick={() => setFormInf(tc)}>UPDATE</button>
+                                    <button className="btn btn-primary separeted" onClick={() => setFormInf(tc)}>UPDATE</button>
                                     <button className="btn btn-danger" onClick={() => deleteTodoCategories(tc.id)}>DELETE</button>
                                 </td>
                             </tr>)
